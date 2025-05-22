@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>エコー同期旅行 in 白浜！</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
+    <!-- Visualization & Content Choices:
+        - Itinerary (1日目 & 2日目): Goal: Inform schedule. Presentation: Vertical timeline cards (HTML/Tailwind). Interaction: None, direct info display. Justification: Clear, chronological. Library/Method: HTML/Tailwind.
+        - Accommodation Details: Goal: Provide quick access. Presentation: Text block with clickable link (HTML/Tailwind). Interaction: Clickable link. Justification: Essential info readily available. Library/Method: HTML/Tailwind.
+        - Packing List: Goal: Remind participants. Presentation: Bulleted list (HTML/Tailwind). Interaction: Copy-to-clipboard button (JS). Justification: Practical and user-friendly. Library/Method: HTML/Tailwind, JS.
+        - No charts or complex visualizations are used as the source is a simple text-based itinerary and the focus is on interactive text generation.
+        -->
+    <style>
+        body {
+            font-family: 'Noto Sans JP', 'Inter', sans-serif;
+            background-color: #f3f4f6; /* bg-slate-100 */
+        }
+        .tab-active {
+            border-color: #2563eb; /* border-blue-600 */
+            color: #2563eb; /* text-blue-600 */
+            background-color: #eff6ff; /* bg-blue-50 */
+        }
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -0.625rem; /* Adjust based on dot size and line position */
+            top: 0.875rem; /* Align with the dot center */
+            bottom: -0.875rem; /* Extend line below the text */
+            width: 2px;
+            background-color: #9ca3af; /* border-gray-400 */
+        }
+        .timeline-item:last-child::before {
+            display: none; /* No line after the last item */
+        }
+        .timeline-dot {
+            position: absolute;
+            left: -0.875rem; /* Center the dot on the line */
+            top: 0.875rem; /* Align with text */
+            width: 0.75rem;
+            height: 0.75rem;
+            border-radius: 50%;
+            background-color: #2563eb; /* bg-blue-600 */
+            border: 2px solid white;
+        }
+        .content-section {
+            display: none;
+        }
+        .content-section.active {
+            display: block;
+        }
+        .icon-emoji {
+            font-size: 1.5em; /* Adjust emoji size */
+            margin-right: 0.5rem;
+        }
+    </style>
+</head>
+<body class="text-slate-800">
+    <div class="container mx-auto p-4 max-w-2xl">
+        <header class="text-center mb-8">
+            <h1 class="text-4xl font-bold text-blue-600">エコー同期旅行 in 白浜！</h1>
+            <p class="text-lg text-slate-600 mt-2">2025年6月22日(日) 〜 6月23日(月)</p>
+        </header>
+
+        <nav class="mb-8 flex justify-center border-b border-slate-300">
+            <button data-tab="day1" class="tab-button py-3 px-6 font-semibold border-b-2 border-transparent hover:border-blue-500 hover:text-blue-500 transition-colors duration-150 tab-active">📅 1日目</button>
+            <button data-tab="day2" class="tab-button py-3 px-6 font-semibold border-b-2 border-transparent hover:border-blue-500 hover:text-blue-500 transition-colors duration-150">📅 2日目</button>
+            <button data-tab="info" class="tab-button py-3 px-6 font-semibold border-b-2 border-transparent hover:border-blue-500 hover:text-blue-500 transition-colors duration-150">ℹ️ 旅の情報</button>
+        </nav>
+
+        <main>
+            <section id="day1" class="content-section active bg-white p-6 rounded-lg shadow-lg">
+                <h2 class="text-2xl font-bold text-blue-600 mb-6">📅 1日目: 2025年6月22日(日)</h2>
+                <div class="space-y-6 relative pl-4">
+                    <div class="timeline-item relative pl-8">
+                        <div class="timeline-dot"></div>
+                        <p class="font-semibold text-lg"><span class="icon-emoji">📍</span>09:00 集合＆出発！</p>
+                        <p class="text-slate-600 ml-1">芸術センター前集合（西宮北口駅！）</p>
+                    </div>
+                    <div class="timeline-item relative pl-8">
+                        <div class="timeline-dot"></div>
+                        <p class="font-semibold text-lg"><span class="icon-emoji">🐟</span>12:00 昼ごはん＆ちょっと観光しよか！</p>
+                        <p class="text-slate-600 ml-1">とれとれ市場でランチと観光タイム！</p>
+                    </div>
+                    <div class="timeline-item relative pl-8">
+                        <div class="timeline-dot"></div>
+                        <p class="font-semibold text-lg"><span class="icon-emoji">🚗</span>14:30 とれとれ市場出発！</p>
+                    </div>
+                    <div class="timeline-item relative pl-8">
+                        <div class="timeline-dot"></div>
+                        <p class="font-semibold text-lg"><span class="icon-emoji">🛒</span>途中で買い出し！</p>
+                    </div>
+                    <div class="timeline-item relative pl-8">
+                        <div class="timeline-dot"></div>
+                        <p class="font-semibold text-lg"><span class="icon-emoji">🏠</span>15:00 宿へGO！＆チェックイン！</p>
+                        <div class="text-slate-600 ml-1 bg-slate-50 p-3 rounded-md mt-1">
+                            <p><strong>泊まる場所:</strong> <a href="https://resortlife.co.jp/cb-shirahama/rooms/slg/" target="_blank" class="text-blue-500 hover:underline">リゾートライフ コテージ白浜</a></p>
+                            <p><strong>部屋のタイプ:</strong> SLG (最大28人も泊まれる、めっちゃ広い貸別荘！)</p>
+                            <p><strong>すごいところ:</strong> 寝室3つ、和室3つ、天然温泉、プール、サウナある！</p>
+                        </div>
+                    </div>
+                    <div class="timeline-item relative pl-8">
+                        <div class="timeline-dot"></div>
+                        <p class="font-semibold text-lg"><span class="icon-emoji">🍖</span>18:00 BBQとレクリエーション！</p>
+                        <p class="text-slate-600 ml-1">待ちに待ったBBQタイム！</p>
+                        <p class="text-slate-600 ml-1">レクリエーション (学力テストとか？) みんなで楽しめる企画、大募集！</p>
+                    </div>
+                </div>
+            </section>
+
+            <section id="day2" class="content-section bg-white p-6 rounded-lg shadow-lg">
+                <h2 class="text-2xl font-bold text-blue-600 mb-6">📅 2日目: 2025年6月23日(月)</h2>
+                <div class="space-y-6 relative pl-4">
+                    <div class="timeline-item relative pl-8">
+                        <div class="timeline-dot"></div>
+                        <p class="font-semibold text-lg"><span class="icon-emoji">🍳</span>08:00 朝ごはん＆チェックアウトや！</p>
+                        <p class="text-slate-600 ml-1">朝ご飯（起きれる人のみ^_^）</p>
+                    </div>
+                    <div class="timeline-item relative pl-8">
+                        <div class="timeline-dot"></div>
+                        <p class="font-semibold text-lg"><span class="icon-emoji">🔑</span>10:00 チェックアウト！</p>
+                        <p class="text-slate-600 ml-1">忘れ物ないように！</p>
+                    </div>
+                    <div class="timeline-item relative pl-8">
+                        <div class="timeline-dot"></div>
+                        <p class="font-semibold text-lg"><span class="icon-emoji">🏖️</span>観光するでー！</p>
+                        <p class="text-slate-600 ml-1">白良浜へ！海で遊ぶでー！</p>
+                    </div>
+                </div>
+            </section>
+
+            <section id="info" class="content-section bg-white p-6 rounded-lg shadow-lg">
+                <h2 class="text-2xl font-bold text-blue-600 mb-6">ℹ️ 旅の情報</h2>
+                
+                <div class="mb-6">
+                    <h3 class="text-xl font-semibold text-slate-700 mb-3"><span class="icon-emoji">📋</span>持っていくものリスト</h3>
+                    <ul class="list-disc list-inside space-y-1 text-slate-600 bg-slate-50 p-4 rounded-md">
+                        <li>着替え</li>
+                        <li>水着</li>
+                        <li>タオル</li>
+                        <li>洗面用具</li>
+                        <li>日焼け止め</li>
+                        <li>帽子</li>
+                        <li>サングラス</li>
+                        <li>虫よけ</li>
+                        <li>酔い止め</li>
+                        <li>常備薬</li>
+                        <li>健康保険証</li>
+                        <li>レクリエーション用品</li>
+                        <li>カメラ</li>
+                        <li class="font-extrabold text-2xl text-red-600">楽しむ気持ち！</li>
+                    </ul>
+                    <button id="copyPackingList" class="mt-3 bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded-lg shadow transition-colors duration-150">
+                        リストをコピー
+                    </button>
+                    <p id="copyMessage" class="text-sm text-green-600 mt-1 hidden">コピーしました！</p>
+                </div>
+
+                <div>
+                    <h3 class="text-xl font-semibold text-slate-700 mb-3"><span class="icon-emoji">🔗</span>お役立ちリンク</h3>
+                    <div class="bg-slate-50 p-4 rounded-md">
+                        <p class="text-slate-600"><strong>宿泊施設:</strong> <a href="https://resortlife.co.jp/cb-shirahama/rooms/slg/" target="_blank" class="text-blue-500 hover:underline">リゾートライフ コテージ白浜 (SLG)</a></p>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <footer class="text-center mt-12 py-4 border-t border-slate-300">
+            <p class="text-sm text-slate-500">&copy; 2025 エコー同期旅行</p>
+        </footer>
+    </div>
+
+    <script>
+        const tabs = document.querySelectorAll('.tab-button');
+        const contentSections = document.querySelectorAll('.content-section');
+
+        tabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                const targetTab = tab.dataset.tab;
+
+                tabs.forEach(t => {
+                    t.classList.remove('tab-active');
+                });
+                tab.classList.add('tab-active');
+
+                contentSections.forEach(section => {
+                    section.classList.remove('active');
+                    if (section.id === targetTab) {
+                        section.classList.add('active');
+                    }
+                });
+            });
+        });
+
+        // Copy packing list to clipboard
+        const copyButton = document.getElementById('copyPackingList');
+        const copyMessage = document.getElementById('copyMessage');
+        copyButton.addEventListener('click', () => {
+            const listItems = document.querySelectorAll('#info ul li');
+            let listText = "持っていくものリスト:\n"; // Changed from "持っていくもんリスト"
+            listItems.forEach(item => {
+                listText += `- ${item.textContent}\n`;
+            });
+
+            // Create a temporary textarea element to copy the text
+            const tempTextArea = document.createElement('textarea');
+            tempTextArea.value = listText;
+            document.body.appendChild(tempTextArea);
+            tempTextArea.select();
+            try {
+                document.execCommand('copy'); // Use execCommand for broader compatibility in iframes
+                copyMessage.textContent = 'リストをコピーしました！';
+                copyMessage.classList.remove('hidden');
+                setTimeout(() => {
+                    copyMessage.classList.add('hidden');
+                }, 2000);
+            } catch (err) {
+                copyMessage.textContent = 'コピーに失敗しました。';
+                copyMessage.classList.remove('hidden');
+                 setTimeout(() => {
+                    copyMessage.classList.add('hidden');
+                }, 2000);
+                console.error('Failed to copy text: ', err);
+            }
+            document.body.removeChild(tempTextArea);
+        });
+    </script>
+</body>
+</html>
